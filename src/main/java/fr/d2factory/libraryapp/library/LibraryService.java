@@ -1,7 +1,8 @@
 package fr.d2factory.libraryapp.library;
 
-import java.time.Duration;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+
 import fr.d2factory.libraryapp.book.Book;
 import fr.d2factory.libraryapp.book.BookRepository;
 import fr.d2factory.libraryapp.member.Member;
@@ -40,7 +41,7 @@ public class LibraryService implements Library {
 		if (bookRepository.isBookAvailableOnBorrowedBooks(book)) {
 
 			LocalDate borrowedAt = bookRepository.findBorrowedBookDate(book);
-			int numberOfDays = (int) Duration.between(LocalDate.now(), borrowedAt).toDays();
+			int numberOfDays = (int) ChronoUnit.DAYS.between(borrowedAt, LocalDate.now());
 			member.payBook(numberOfDays);
 			this.bookRepository.returnBook(book);
 			member.returnBookBorrow(book);

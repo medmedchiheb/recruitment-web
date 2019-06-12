@@ -49,13 +49,11 @@ public class Resident extends Member {
 
 	@Override
 	public boolean hasLateBooks() {
-		
-		return this.getBorrowedBooks()
-        .values().stream()
-        .filter(ld -> {
-        	return Duration.between(LocalDate.now(), ld).toDays() > LibraryProperties.getInstance().getAllowedDaysResidents();
-        })
-        .count() >= 1;
+
+		return this.getBorrowedBooks().values().stream().filter(ld -> {
+			return Duration.between(LocalDate.now(), ld).toDays() > LibraryProperties.getInstance()
+					.getAllowedDaysResidents();
+		}).count() >= 1;
 	}
 
 }

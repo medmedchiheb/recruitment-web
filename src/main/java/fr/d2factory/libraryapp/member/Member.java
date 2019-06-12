@@ -73,7 +73,6 @@ public abstract class Member {
 		this.membershipDate = membershipDate;
 	}
 
-	
 	public Map<Book, LocalDate> getBorrowedBooks() {
 		return borrowedBooks;
 	}
@@ -111,7 +110,7 @@ public abstract class Member {
 	public void returnBookBorrow(Book book) {
 		this.borrowedBooks.remove(book);
 	}
-	
+
 	public abstract boolean hasLateBooks();
 
 }

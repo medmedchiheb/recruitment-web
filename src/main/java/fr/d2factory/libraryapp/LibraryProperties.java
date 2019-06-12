@@ -18,43 +18,40 @@ public class LibraryProperties {
 	private float lateStudentsCost;
 	private float lateResidentsCost;
 	private int allowedFreeDaysStudents;
-	
-	
-	private static  LibraryProperties instance;
-	
-	
+
+	private static LibraryProperties instance;
+
 	public static synchronized LibraryProperties getInstance() {
-		if(instance == null) 
-			instance=new LibraryProperties();
+		if (instance == null)
+			instance = new LibraryProperties();
 		return instance;
 	}
-	
+
 	private LibraryProperties() {
 		readProps();
 	}
 
 	/*
-	 *  read library properties
+	 * read library properties
 	 */
 	private void readProps() {
-		  try (InputStream input = new FileInputStream("src/main/java/resources/library.properties")) {
+		try (InputStream input = new FileInputStream("src/main/java/resources/library.properties")) {
 
-	            Properties prop = new Properties();
+			Properties prop = new Properties();
 
-	            prop.load(input);
+			prop.load(input);
 
-	            this.allowedDaysStudents=Integer.parseInt(prop.getProperty("library.allowed-days-students"));
-	            this.allowedDaysResidents=Integer.parseInt(prop.getProperty("library.allowed-days-residents"));
-	            this.costPerDay=Float.parseFloat(prop.getProperty("library.cost-perday"));
-	            this.lateStudentsCost=Float.parseFloat(prop.getProperty("library.cost-perday.late-students"));
-	            this.lateResidentsCost=Float.parseFloat(prop.getProperty("library.cost-perday.late-residents"));
-	            this.allowedFreeDaysStudents=Integer.parseInt(prop.getProperty("library.free-days-book.students.allowed.first-year"));
-	           
+			this.allowedDaysStudents = Integer.parseInt(prop.getProperty("library.allowed-days-students"));
+			this.allowedDaysResidents = Integer.parseInt(prop.getProperty("library.allowed-days-residents"));
+			this.costPerDay = Float.parseFloat(prop.getProperty("library.cost-perday"));
+			this.lateStudentsCost = Float.parseFloat(prop.getProperty("library.cost-perday.late-students"));
+			this.lateResidentsCost = Float.parseFloat(prop.getProperty("library.cost-perday.late-residents"));
+			this.allowedFreeDaysStudents = Integer
+					.parseInt(prop.getProperty("library.free-days-book.students.allowed.first-year"));
 
-	        } catch (IOException ex) {
-	            ex.printStackTrace();
-	            System.out.println("exception: "+ex);
-	        }
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
 	}
 
 	public int getAllowedDaysStudents() {
@@ -105,15 +102,4 @@ public class LibraryProperties {
 		this.allowedFreeDaysStudents = allowedFreeDaysStudents;
 	}
 
-	public void setInstance(LibraryProperties instance) {
-		this.instance = instance;
-	}
-
-	
-	
-	
-	
 }
-	
-
-

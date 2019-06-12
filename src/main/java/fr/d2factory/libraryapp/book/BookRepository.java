@@ -45,18 +45,17 @@ public class BookRepository {
 			availableBooks.remove(book.isbn);
 		}
 	}
-	
+
 	public void returnBook(Book book) {
 		if (isBookAvailableOnBorrowedBooks(book)) {
-			borrowedBooks.remove(book) ;
+			borrowedBooks.remove(book);
 			availableBooks.put(book.isbn, book);
 		}
 	}
-	
 
 	public LocalDate findBorrowedBookDate(Book book) {
 
-		if (isBookAvailable(book.isbn.isbnCode)) {
+		if (isBookAvailableOnBorrowedBooks(book)) {
 			return borrowedBooks.get(book);
 		}
 
@@ -66,8 +65,8 @@ public class BookRepository {
 	public boolean isBookAvailable(long isbnCode) {
 		return this.availableBooks.keySet().stream().filter(b -> b.isbnCode == isbnCode).findAny().isPresent();
 	}
-	
+
 	public boolean isBookAvailableOnBorrowedBooks(Book book) {
-		return this.borrowedBooks.keySet().stream().filter(b -> b.equals(book) ).findAny().isPresent();
+		return this.borrowedBooks.keySet().stream().filter(b -> b.equals(book)).findAny().isPresent();
 	}
 }

@@ -1,8 +1,8 @@
 package fr.d2factory.libraryapp.member;
 
-import java.time.Duration;
 import java.time.LocalDate;
 import java.time.Period;
+import java.time.temporal.ChronoUnit;
 
 import fr.d2factory.libraryapp.LibraryProperties;
 
@@ -67,13 +67,12 @@ public class Student extends Member {
 
 	@Override
 	public boolean hasLateBooks() {
-		
-		return this.getBorrowedBooks()
-        .values().stream()
-        .filter(ld -> {
-        	return Duration.between(LocalDate.now(), ld).toDays() > LibraryProperties.getInstance().getAllowedDaysStudents();
-        })
-        .count() >= 1;
+
+		return this.getBorrowedBooks().values().stream().filter(ld -> {
+			// Duration.between(LocalDate.now(), ).toDays()
+			return ChronoUnit.DAYS.between(ld, LocalDate.now()) > LibraryProperties.getInstance()
+					.getAllowedDaysStudents();
+		}).count() >= 1;
 	}
 
 }
