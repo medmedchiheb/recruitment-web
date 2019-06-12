@@ -9,24 +9,53 @@ import java.util.Map;
  * The book repository emulates a database via 2 HashMaps
  */
 public class BookRepository {
-    private Map<ISBN, Book> availableBooks = new HashMap<>();
-    private Map<Book, LocalDate> borrowedBooks = new HashMap<>();
+	private Map<ISBN, Book> availableBooks = new HashMap<>();
+	private Map<Book, LocalDate> borrowedBooks = new HashMap<>();
 
-    public void addBooks(List<Book> books){
-        //TODO implement the missing feature
-    }
+	private static BookRepository instance;
 
-    public Book findBook(long isbnCode) {
-        //TODO implement the missing feature
-        return null;
-    }
+	private BookRepository() {
+		availableBooks = new HashMap<>();
+		borrowedBooks = new HashMap<>();
+	}
 
-    public void saveBookBorrow(Book book, LocalDate borrowedAt){
-        //TODO implement the missing feature
-    }
+	public static synchronized BookRepository getInstance() {
+		if (instance == null)
+			instance = new BookRepository();
+		return instance;
+	}
 
-    public LocalDate findBorrowedBookDate(Book book) {
-        //TODO implement the missing feature
-        return null;
-    }
+	public void addBooks(List<Book> books) {
+		books.forEach(b -> {
+			availableBooks.put(b.isbn, b);
+		});
+	}
+
+	public Book findBook(long isbnCode) {
+		if (!isBookAvailable(isbnCode))
+			return null;
+
+		return this.availableBooks
+				.get(this.availableBooks.keySet().stream().filter(b -> b.isbnCode == isbnCode).findAny().get());
+	}
+
+	public void saveBookBorrow(Book book, LocalDate borrowedAt) {
+		if (isBookAvailable(book.isbn.isbnCode)) {
+			borrowedBooks.put(book, borrowedAt);
+			availableBooks.remove(book.isbn);
+		}
+	}
+
+	public LocalDate findBorrowedBookDate(Book book) {
+
+		if (isBookAvailable(book.isbn.isbnCode)) {
+			return borrowedBooks.get(book);
+		}
+
+		return null;
+	}
+
+	public boolean isBookAvailable(long isbnCode) {
+		return this.availableBooks.keySet().stream().filter(b -> b.isbnCode == isbnCode).findAny().isPresent();
+	}
 }
