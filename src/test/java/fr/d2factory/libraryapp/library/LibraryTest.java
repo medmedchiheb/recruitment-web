@@ -30,6 +30,8 @@ public class LibraryTest {
 	private Library library;
 	private BookRepository bookRepository;
 	private LibraryProperties properties;
+	
+	private LocalDate now =LocalDate.of(2019, 06, 12);
 
 	@Before
 	public void setup() {
@@ -81,8 +83,7 @@ public class LibraryTest {
 		library.borrowBook(465789453149L, member, borrowedAt);
 		library.returnBook(book, member);
 
-		int numberOfDays = (int) ChronoUnit.DAYS.between(borrowedAt, LocalDate.now());
-		System.out.println("days" + numberOfDays);
+		int numberOfDays = (int) ChronoUnit.DAYS.between(borrowedAt, now);
 		float cost = numberOfDays * properties.getCostPerDay();
 
 		assertEquals(cost, properties.getCostPerDay(), 0);
@@ -108,7 +109,7 @@ public class LibraryTest {
 		Member member = new Student(LocalDate.of(2019, 01, 01), 150);
 		float memberWallet = member.getWallet();
 		Book book = bookRepository.findBook(465789453149L);
-		LocalDate borrowedAt = LocalDate.of(2019, 05, 29);
+		LocalDate borrowedAt = LocalDate.of(2019, 06, 07);
 		library.borrowBook(465789453149L, member, borrowedAt);
 		library.returnBook(book, member);
 
@@ -140,7 +141,7 @@ public class LibraryTest {
 		LocalDate borrowedAt = LocalDate.of(2019, 05, 01);
 		library.borrowBook(465789453149L, member, borrowedAt);
 		library.returnBook(book, member);
-		int numberOfDays = (int) ChronoUnit.DAYS.between(borrowedAt, LocalDate.now());
+		int numberOfDays = (int) ChronoUnit.DAYS.between(borrowedAt, now);
 
 		int daysAfterInitialAllowedDays = numberOfDays - LibraryProperties.getInstance().getAllowedDaysResidents();
 		float costAfterInitialAllowedDays = daysAfterInitialAllowedDays
